@@ -1,0 +1,12 @@
+{
+    auto_https off
+    http_port 8080
+    log {
+        format console
+    }
+}
+
+:8080 {
+    respond /health-check "OK" 200
+    reverse_proxy * http://fly-machines-proxy-demo.fly.dev:8080
+}
