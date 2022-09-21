@@ -1,9 +1,15 @@
 # fly-replay-header-caddy
 A sample Caddy reverse proxy setup that leverages the Fly Replay Header to route requests globally
 
-## Using Caddy as a reverse proxy on Fly.io
+## Context
 
-... is great, if you keep a couple gotchas in mind.
+[demo](fly-replay-header-caddy.fly.dev) | [repo](https://github.com/mtremsal/fly-replay-header-caddy)
+
+This project powers a Caddy reverse proxy deployed in front of a demo app that simulates high-throughput, low-latency multi-users workloads. The repository and rationale for the demo is available [here](https://github.com/mtremsal/fly-machines-proxy-demo). The Caddy reverse proxy leverages the [Fly Replay Header](https://fly.io/docs/reference/fly-replay/) to dynamically route users to certain instances in various regions.
+
+## Key Takeaways
+
+Using Caddy as a reverse proxy on Fly.io is great, if you keep the following things in mind:
 
 ### Caddy v1 SEO
 
@@ -15,7 +21,7 @@ One of the greatest features of Caddy as a turnkey web server and reverse proxy 
 
 ### Sketchy health checks
 
-Because they determine whether to continue or roll back new versions of an app, you almost certainly want to configure Fly.io's health checks to test whether Caddy itself works, rather than have it pass the check "upstream" to another app. This can be accomplished in several ways, such as serving a permanent `2011` response for a specific route (e.g. `respond /health-check "OK" 200` in Caddy) and then configuring HTTP health checks in Fly.io for it:
+Because they determine whether to continue or roll back new versions of an app, you almost certainly want to configure Fly.io's health checks to test whether Caddy itself works, rather than have it pass the check "upstream" to another app. This can be accomplished in several ways, such as serving a permanent `201` response for a specific route (e.g. `respond /health-check "OK" 200` in Caddy) and then configuring HTTP health checks in Fly.io for it:
 
 ```toml
 [[services.http_checks]]
