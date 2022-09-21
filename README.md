@@ -3,7 +3,7 @@ A sample Caddy reverse proxy setup that leverages the Fly Replay Header to route
 
 ## Context
 
-[demo](fly-replay-header-caddy.fly.dev) | [repo](https://github.com/mtremsal/fly-replay-header-caddy)
+[demo](https://fly-replay-header-demo.fly.dev/) | [repo](https://github.com/mtremsal/fly-replay-header-caddy)
 
 This project powers a Caddy reverse proxy deployed in front of a demo app that simulates high-throughput, low-latency multi-users workloads. The repository and rationale for the demo is available [here](https://github.com/mtremsal/fly-machines-proxy-demo). The Caddy reverse proxy leverages the [Fly Replay Header](https://fly.io/docs/reference/fly-replay/) to dynamically route users to certain instances in various regions.
 
