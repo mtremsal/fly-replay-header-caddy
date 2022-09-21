@@ -62,6 +62,6 @@ to "localhost" but you may be trying to access it from
 ```
 ## References
 
-* [docs](https://caddyserver.com/docs/) and [Caddyfile concepts](https://caddyserver.com/docs/caddyfile/concepts) -- caddyserver.com
+* [docs](https://caddyserver.com/docs/), [Caddyfile concepts](https://caddyserver.com/docs/caddyfile/concepts), [Map](https://caddyserver.com/docs/caddyfile/directives/map#map) and [Header](https://caddyserver.com/docs/caddyfile/directives/header) directives -- caddyserver.com
 * [hosting a static site on fly.io with nix and caddy](https://mat.services/posts/static-site-with-nix-and-caddy/) -- mat.services
 * [Run a Static Website](https://fly.io/docs/languages-and-frameworks/static/) -- Fly.io

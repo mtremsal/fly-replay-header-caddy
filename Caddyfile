@@ -7,6 +7,24 @@
 }
 
 :8080 {
+    # Parses the path to assign the variable {target_region} based on the second capture group of the regex
+    map {path}                  {target_region} {
+        ~(.*)/gameserver/(.*)$  "region=${2}"
+        default                 ""
+    }
+
+    # Defines a named matcher that checks that the request is for a gameserver and hasn't been already redirected by the proxy
+    @tobereplayed {
+        path /gameserver/*
+        header !fly-replay-src
+    }
+
+    # Add a response header to all requests that should be replayed with the target region
+    header @tobereplayed fly-replay {target_region}
+
+    # Provide a static 200 response at the /health-check path intended for Fly.io's health checks
     respond /health-check "OK" 200
+
+    # proxy everything else to the fly-machines-proxy-demo.fly.dev upstream server
     reverse_proxy * https://fly-machines-proxy-demo.fly.dev:443
 }
