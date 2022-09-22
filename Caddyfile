@@ -9,9 +9,10 @@
 
 :8080 {
     # Parses the path to assign the variable {target_region} based on the second capture group of the regex
-    map {path}                  {target_region} {
-        ~(.*)/gameserver/(.*)$  "region=${2}"
-        default                 ""
+    map     {uri}                                           {target_region} {
+            ~\/gameserver\/(.+)$                            "region=${1}"
+            ~\/live\/websocket\?.*_region=(.+)\&_path.*$    "region=${1}"
+            default                                         ""
     }
 
     # Defines a named matcher that checks that the request is for a gameserver and hasn't been already redirected by the proxy
@@ -20,15 +21,16 @@
         header !fly-replay-src
     }
 
-    # Add a response header to all requests that should be replayed with the target region
-    header @tobereplayed fly-replay {target_region}
+    # Defines a named matcher that checks that the request is for a liveview's websocket and hasn't been already redirected by the proxy
+    # The regex in the map ensures the region cannot be null
+    @tobereplayedws {
+        path /live/websocket*
+        header !fly-replay-src
+    }
 
-    # DEBUG Add a hardcoded response header to CDG region for the /websocket calls
-    # @tobereplayedtocdg {
-    #     path /live/websocket
-    #     header !fly-replay-src
-    # }
-    # header @tobereplayedtocdg fly-replay "region=cdg"
+    # Add a response header to all requests that should be replayed with the target region
+    header @tobereplayed    fly-replay {target_region}
+    header @tobereplayedws  fly-replay {target_region}
 
     # Provide a static 200 response at the /health-check path intended for Fly.io's health checks
     respond /health-check "OK" 200
